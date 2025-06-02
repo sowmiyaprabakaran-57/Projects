@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phono Kit - All in One</title>
+  <style>
+    /* Basic styles merged for demo */
+    body { font-family: 'Inter', sans-serif; margin: 0; }
+    .navbar, .top-bar, footer { background: #222; color: white; padding: 10px; }
+    .nav-links a, .top-bar a { color: white; margin: 0 10px; text-decoration: none; }
+    .highlight { color: #00ccff; }
+    .hidden { display: none; }
+    main, section { padding: 20px; }
+    .logo { font-size: 20px; font-weight: bold; }
+    button, input, textarea { margin: 5px 0; padding: 6px; display: block; }
+    .nav-links li { display: inline; margin: 0 10px; }
+    ul { padding: 0; list-style: none; }
+    form label { display: block; margin-bottom: 10px; }
+    .cta-buttons a { margin-right: 10px; padding: 10px; text-decoration: none; background: #00ccff; color: white; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="contact-info">
+      <span>Contact: phonokit@edu.in</span> | 
+      <span>Location: Tamil Nadu, India</span>
+    </div>
+  </header>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">Phono <span class="highlight">Kit</span></div>
+    <ul class="nav-links">
+      <li><a href="#" onclick="showPage('home')">Home</a></li>
+      <li><a href="#" onclick="showPage('student')">Student</a></li>
+      <li><a href="#" onclick="showPage('educator')">Educator</a></li>
+      <li><a href="#" onclick="showPage('parent')">Parents</a></li>
+      <li><a href="#" onclick="showPage('doctor')">Doctor</a></li>
+      <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Page Sections -->
+  <section id="home">
+    <h1>Introducing Phono Kit</h1>
+    <p>Your personal hardware learning companion. Empower students and hobbyists to learn electronics, programming, and robotics with one compact kit.</p>
+    <div class="cta-buttons">
+      <a href="#">Explore Kit</a>
+      <a href="#">▶ Watch Demo</a>
+    </div>
+  </section>
+
+  <section id="student" class="hidden">
+    <h2>Student Learning Portal</h2>
+    <p>Hi Super Learner! Ready to explore letters with joy and fun?</p>
+    <form>
+      <label>Name: <input type="text" required></label>
+      <label>Age: <input type="number" required></label>
+      <label>Grade: <input type="text"></label>
+      <button type="submit">Start Learning</button>
+    </form>
+    <h3>Let’s Practice Letters!</h3>
+    <div class="letter-box">A</div>
+    <div class="letter-box">B</div>
+    <div class="letter-box">C</div>
+  </section>
+
+  <section id="educator" class="hidden">
+    <h2>Educator Dashboard</h2>
+    <form>
+      <label>Email: <input type="email"></label>
+      <label>Password: <input type="password"></label>
+      <button type="submit">Login</button>
+    </form>
+    <h3>Your Students</h3>
+    <ul>
+      <li>Student A - <button>Assign Task</button> <button>View Progress</button></li>
+      <li>Student B - <button>Assign Task</button> <button>View Progress</button></li>
+    </ul>
+  </section>
+
+  <section id="parent" class="hidden">
+    <h2>Parent Dashboard</h2>
+    <form>
+      <label>Email: <input type="email"></label>
+      <label>Password: <input type="password"></label>
+      <button type="submit">Login</button>
+    </form>
+    <h3>Your Child’s Progress</h3>
+    <p>Name: Arya | Age: 8 | Grade: 3</p>
+    <ul>
+      <li>Alphabet Recognition: 85%</li>
+      <li>Sound Matching: 75%</li>
+      <li>Weekly Tasks: Completed 3/4</li>
+    </ul>
+  </section>
+
+  <section id="doctor" class="hidden">
+    <h2>Doctor Dashboard</h2>
+    <form>
+      <label>Email: <input type="email"></label>
+      <label>Password: <input type="password"></label>
+      <button type="submit">Login</button>
+    </form>
+    <h3>Student Monitoring & Suggestions</h3>
+    <ul>
+      <li>Student Arya - Suggested Task: "Practice B and D reversal recognition"</li>
+      <li>Student Ravi - Progress Improved: +15% in letter tracing</li>
+    </ul>
+  </section>
+
+  <section id="contact" class="hidden">
+    <h2>Contact Our Team</h2>
+    <p>We'd love to hear from you! Reach us for support, collaboration, or feedback.</p>
+    <form>
+      <label>Name: <input type="text"></label>
+      <label>Email: <input type="email"></label>
+      <label>Message: <textarea></textarea></label>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Phono Kit | Designed with ❤️ by CATALYST</p>
+  </footer>
+
+  <script>
+    function showPage(id) {
+      const sections = document.querySelectorAll("section");
+      sections.forEach(section => section.classList.add("hidden"));
+      document.getElementById(id).classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
+
