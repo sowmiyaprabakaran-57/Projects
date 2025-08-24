@@ -113,9 +113,9 @@ Safeguard AI uses MediaPipe to recognize a specific **open palm gesture** to sig
 
 ## 🧑‍💻 Contributors
 
-* **Thiyaneshwar S**
+* **Sowmiya P**
   👨‍🎓 AIML Student | AI Enthusiast
-  📧 [sthiyaneshwar94@gmail.com](mailto:sthiyaneshwar94@gmail.com)
+  📧 [sowmiya1157@gmail.com](mailto:sowmiya1157@g.mail.com)
  
 ---
 
