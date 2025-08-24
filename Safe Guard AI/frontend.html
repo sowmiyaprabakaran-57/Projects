@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeGard CCTV Monitoring</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            overflow-x: hidden;
+            transition: color 0.3s;
+            background: linear-gradient(45deg, #007bff, #28a745, #ff4d4d);
+            background-size: 300% 300%;
+            animation: gradientBG 10s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+               /* Sidebar Styles */
+               .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(51, 51, 51, 0.9);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            z-index: 1000;
+        }
+
+        .sidebar a {
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 1.2em;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 1.5em;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Open Sidebar Button */
+        #openNav {
+            font-size: 1.5em;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 10px;
+            border-radius: 4px;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1001;
+        }
+
+        #openNav:hover {
+            background: #0056b3;
+        }
+                /* Main Content */
+                .main-content {
+            margin-left: 50px; /* Space for the navigation button */
+            padding: 1em;
+            width: 100%;
+        }
+
+        /* Video Frame */
+        .video-frame {
+            margin-top: 4em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 850px;
+            height: auto;
+            padding: 1em 0;
+            position: relative;
+            z-index: 500;
+        }
+
+        .video-frame iframe {
+            width: 80%;
+            height: 500px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 1em;
+            margin-top: 1em;
+        }
+
+        .buttons-container button {
+            padding: 0.5em 1em;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .buttons-container button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Camera Location Section */
+        #location {
+            margin-top: 2em;
+            text-align: center;
+            display: none; /* Initially hidden */
+        }
+
+        #location-info {
+            margin-top: 1em;
+            font-size: 1em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #location button {
+            padding: 0.5em 1em;
+            font-size: 1em;
+            color: #fff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #location button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <button id="openNav" onclick="openNav()">☰ Menu</button>
+
+    <p>The specified hand gesture will trigger the video stream for the next 30 seconds. Use the controls below to manage the stream manually.</p>
+
+    <!-- Navigation Bar -->
+      <!-- Sidebar Navigation -->
+      <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="#" onclick="navigateTo('home')">Home</a>
+        <a href="#" onclick="navigateTo('live')">Live Video</a>
+        <a href="#" onclick="navigateTo('settings')">Settings</a>
+    </div>
+
+    <!-- Video Frame -->
+    <div id="videoFrame" class="video-frame">
+        <iframe id="liveVideo" src="http://127.0.0.1:5000/video_feed"frameborder="0" onload="playAlarm()"></iframe>
+        
+        <!-- Buttons Container -->
+        <div class="buttons-container">
+            <button id="startButton" onclick="startStream()">Start Stream</button>
+            <button id="stopButton" onclick="stopStream()">Stop Stream</button>
+        </div>
+    </div>
+
+    <!-- Camera Location Section -->
+    <div id="location">
+        <button onclick="fetchLocation()">Get Camera Location</button>
+        <p id="location-info">Location will appear here...</p>
+    </div>
+
+    <!-- Alarm Audio -->
+    <audio id="alarmSound" src="/static/alarm.mp3"></audio>
+
+    <script>
+          // Open the sidebar
+          function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
+
+        // Close the sidebar
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        // Example function for navigation
+        function navigateTo(section) {
+            alert(`Navigating to ${section}!`);
+        }
+
+        // Function to navigate between sections
+        function navigateTo(section) {
+            if (section === 'live') {
+                startStream(); // Automatically start streaming when navigating to the live section
+            } else {
+                stopStream(); // Stop streaming when navigating away from live
+            }
+        }
+
+        // Function to start streaming manually or automatically
+        function startStream() {
+            clearTimeout(autoStreamTimeout); // Clear any existing auto-stop timer
+            isManualStreaming = true; // Set the manual streaming flag to true
+            liveVideo.src = "/video_feed"; // Start the video feed
+            document.getElementById('startButton').disabled = true; // Disable the start button once it's clicked
+            document.getElementById('stopButton').disabled = false; // Enable the stop button
+
+            // Show the Camera Location section
+            document.getElementById('location').style.display = "block";
+        }
+
+        // Function to stop streaming manually or automatically
+        function stopStream() {
+            liveVideo.src = ""; // Stop the video feed
+            isManualStreaming = false; // Set the manual streaming flag to false
+            document.getElementById('startButton').disabled = false; // Enable the start button again
+            document.getElementById('stopButton').disabled = true; // Disable the stop button
+
+            // Hide the Camera Location section
+            document.getElementById('location').style.display = "none";
+        }
+
+        // Function to play alarm sound
+        function playAlarm() {
+            const alarmSound = document.getElementById("alarmSound");
+            alarmSound.play();
+        }
+
+        // Function to fetch camera location
+        function fetchLocation() {
+            fetch('/location')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        const { country, region, city, lat, lon } = data.location;
+                        document.getElementById("location-info").innerText = 
+                            `Country: ${country}, Region: ${region}, City: ${city}, Latitude: ${lat}, Longitude: ${lon}`;
+                    } else {
+                        document.getElementById("location-info").innerText = "Error fetching location.";
+                    }
+                })
+                .catch(err => {
+                    document.getElementById("location-info").innerText = "Error fetching location.";
+                    console.error(err);
+                });
+        }
+
+        // Auto start streaming for 30 seconds after page loads
+        window.onload = function() {
+            liveVideo.src = "/video_feed"; // Auto-start video feed
+            document.getElementById('startButton').disabled = true; // Disable the start button during auto-streaming
+            document.getElementById('stopButton').disabled = false; // Enable the stop button
+
+            autoStreamTimeout = setTimeout(() => {
+                if (!isManualStreaming) {
+                    stopStream(); // Automatically stop streaming after 30 seconds
+                } else {
+                    liveVideo.src = "/video_feed"; // Reconnect to the stream if manual streaming is active
+                }
+            }, 30000); // Stop the stream after 30 seconds
+        };
+    </script>
+</body>
+</html>
